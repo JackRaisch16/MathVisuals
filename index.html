@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Math Visualizations by Jack Raisch</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Interactive Math Visualizations</h1>
+  <p>Click a button to load a sketch:</p>
+
+  <button onclick="loadSketch('sine_wave')">Sine Wave</button>
+  <button onclick="loadSketch('ulam_spiral')">Prime Spiral</button>
+  <button onclick="loadSketch('vector_addition')">Vector Addition</button>
+
+  <div id="sketch-holder"></div>
+
+  <script>
+    let currentSketch;
+
+    function loadSketch(name) {
+      if (currentSketch) {
+        currentSketch.remove();
+      }
+
+      const script = document.createElement("script");
+      script.src = `${name}.js`;
+      script.onload = () => {
+        currentSketch = new p5(window[name], 'sketch-holder');
+      };
+
+      document.body.appendChild(script);
+    }
+
+    window.onload = () => loadSketch('sine_wave');
+  </script>
+</body>
+</html>
