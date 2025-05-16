@@ -1,38 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Math Visualizations by Jack Raisch</title>
   <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Interactive Math Visualizations</h1>
+  <h1>Sine/Cosine/Tangent Wave Visualizations</h1>
   <p>Click a button to load a sketch:</p>
 
-  <button onclick="loadSketch('sine_wave')">Sine Wave</button>
-  <button onclick="loadSketch('ulam_spiral')">Prime Spiral</button>
-  <button onclick="loadSketch('vector_addition')">Vector Addition</button>
+  <button onclick="switchSketch('sine')">Sine Wave</button>
+  <button onclick="switchSketch('cosine')">Cosine Wave</button>
+  <button onclick="switchSketch('tangent')">Tangent Wave</button>
 
   <div id="sketch-holder"></div>
+
+  <script src="sine_wave.js"></script>
+  <script src="cosine_wave.js"></script>
+  <script src="tangent_wave.js"></script>
 
   <script>
     let currentSketch;
 
-    function loadSketch(name) {
+    function switchSketch(name) {
       if (currentSketch) {
         currentSketch.remove();
       }
 
-      const script = document.createElement("script");
-      script.src = `${name}.js`;
-      script.onload = () => {
-        currentSketch = new p5(window[name], 'sketch-holder');
+      const sketchMap = {
+        sine: sine_wave,
+        cosine: cosine_wave,
+        tangent: tangent_wave
       };
 
-      document.body.appendChild(script);
+      currentSketch = new p5(sketchMap[name], 'sketch-holder');
     }
 
-    window.onload = () => loadSketch('sine_wave');
+    // Load sine wave by default
+    window.onload = () => switchSketch('sine');
   </script>
 </body>
 </html>
